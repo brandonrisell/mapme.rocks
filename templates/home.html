@@ -109,11 +109,11 @@ $('#URLSubmit').on('click',function(e){
 		},
 		success : function(resp){
 			loading.remove();
-			$('.hero').animate(duration=1000).css('height', '0px');
+			$('.hero').animate({duration:1000}).css('height', '0px');
 			$('.btn-success').removeClass('hide');
 			// $('#map-container').append('<p> <strong>' + resp['City'] + ' / ' + resp['Country'] + '</strong> Latitude: ' + resp['Latitude'] + ', Longitude:' + resp['Longitude'] + '</p>');
 			initialize_map(resp['Latitude'], resp['Longitude'], $('input#URL').val());
-			$('#map-container').animate(duration=1000).css('height', '300px');
+			$('#map-container').animate({duration:1000}).css('height', '300px');
 			$('input').val('');
 			console.log(resp);
 		},
