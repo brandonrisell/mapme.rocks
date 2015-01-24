@@ -106,6 +106,7 @@ $('#URLSubmit').on('click',function(e){
 		contentType: 'application/json;charset=UTF-8',
 		beforeSend: function(){
 			$('.col-md-2').append(loading);
+			$('.gm-style').remove();
 		},
 		success : function(resp){
 			loading.remove();
