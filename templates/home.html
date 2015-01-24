@@ -48,8 +48,11 @@
 				<div class="panel-body text-center">
 			        </br>
 			        <form class="form-inline">
-		        	   <input type="text" class="form-control" id="URL" placeholder="example.com">
-		        	  <button type="submit" id="URLSubmit" class="btn btn-success">Lookup</button>
+			        <div class="form-group">
+			        	
+			        	   <input type="text" class="form-control" id="URL" placeholder="example.com">
+		        	 </div>
+			        	  <button type="submit" id="URLSubmit" class="btn btn-success">Lookup</button>
 		        	</form>
 			        </br>
 			        <div id="map-container">
@@ -78,15 +81,60 @@
 
 <script type="text/javascript">
 
-function initialize_map(latitude, longitude, title) {
-	var myLatlng = new google.maps.LatLng(latitude, longitude);
+$(document).ready(function(){
+	function initialize_map(latitude, longitude, title) {
+		var myLatlng = new google.maps.LatLng(latitude, longitude);
 
-	var mapOptions = {
-		center: myLatlng,
-		zoom: 10
-	};
+		var mapOptions = {
+			center: myLatlng,
+			zoom: 10
+		};
 
-	var map = new google.maps.Map(document.getElementById('map-container'), mapOptions);
+		var map = new google.maps.Map(document.getElementById('map-container'), mapOptions);
+
+		var marker = new google.maps.Marker({
+		    position: myLatlng,
+		    map: map,
+		    title: title
+		});
+	}
+
+	var loading = $('<div style="text-center"><i class="fa fa-spin fa-2x text-center fa-spinner"></i></div>');
+
+	$('#URLSubmit').on('click',function(e){
+		e.preventDefault();
+
+		$('.btn-success').addClass('hide');
+
+		$.ajax({
+			type : "GET",
+			url : "/geoip/" + $('input#URL').val(),
+			contentType: 'application/json;charset=UTF-8',
+			beforeSend: function(){
+				$('.col-md-2').append(loading);
+				$('.gm-style').remove();
+			},
+			success : function(resp){
+				loading.remove();
+				$('.btn-success').removeClass('hide');
+				$('.hero').animate({height: 0}, 1800, function(){ 
+					$('.hero').hide();
+				});
+				$('#map-container').animate({height: 450}, 1800, function(){ 
+					$('#map-container').css('height', '450px');
+					initialize_map(resp['Latitude'], resp['Longitude'], $('input#URL').val());
+				});
+				$('input').val('');
+			},
+			error : function(resp){
+				alert(resp['responseText']);
+				loading.remove();
+				$('.hero').fadeIn();
+				$('.btn-success').removeClass('hide');
+	       loading.remove();
+			}
+		});
+	});
 
 	var marker = new MarkerWithLabel({
 	   position: myLatlng,
@@ -95,44 +143,6 @@ function initialize_map(latitude, longitude, title) {
        labelAnchor: new google.maps.Point(22, 0),
        labelClass: "marker-label"
 	});
-}
-
-var loading = $('<div style="text-center"><i class="fa fa-spin fa-2x text-center fa-spinner"></i></div>');
-
-$('#URLSubmit').on('click',function(e){
-	e.preventDefault();
-
-	$('.btn-success').addClass('hide');
-
-	$.ajax({
-		type : "GET",
-		url : "/geoip/" + $('input#URL').val(),
-		contentType: 'application/json;charset=UTF-8',
-		beforeSend: function(){
-			$('.col-md-2').append(loading);
-			$('.gm-style').remove();
-		},
-		success : function(resp){
-			loading.remove();
-			$('.btn-success').removeClass('hide');
-			$('.hero').animate({height: 0}, 1800, function(){ 
-				$('.hero').hide();
-			});
-			$('#map-container').animate({height: 450}, 1800, function(){ 
-				$('#map-container').css('height', '450px');
-				initialize_map(resp['Latitude'], resp['Longitude'], $('input#URL').val());
-			});
-			$('input').val('');
-		},
-		error : function(resp){
-			alert(resp['responseText']);
-			loading.remove();
-			$('.hero').fadeIn();
-			$('.btn-success').removeClass('hide');
-       loading.remove();
-		}
-	});
-
 });
 
 </script>

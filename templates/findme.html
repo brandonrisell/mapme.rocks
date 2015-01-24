@@ -51,31 +51,62 @@
 {{ super() }}
 <script type="text/javascript" src="//maps.googleapis.com/maps/api/js?key=AIzaSyA0C2Xi_cPKItEbSokdY-pwmOJCvXfGqik"></script>
 
-{% if visitor_info %}
 <script type="text/javascript">
 
-function initialize_map() {
-	var myLatlng = new google.maps.LatLng({{ visitor_info['Latitude'] }}, {{ visitor_info['Longitude'] }});
+$(document).ready(function(){
+	
+	console.log('test');
 
-	var mapOptions = {
-		center: myLatlng,
-		zoom: 10
-	};
+	$('#map-container').css('height', '450px');
 
-	var map = new google.maps.Map(document.getElementById('map-container'), mapOptions);
+	function initialize_map(latitude, longitude, title) {
+		var myLatlng = new google.maps.LatLng(latitude, longitude);
 
-	var marker = new google.maps.Marker({
-	    position: myLatlng,
-	    map: map,
-	    title: "{{ visitor_info['IP Address'] }}"
+		var mapOptions = {
+			center: myLatlng,
+			zoom: 10
+		};
+
+		var map = new google.maps.Map(document.getElementById('map-container'), mapOptions);
+
+		var marker = new google.maps.Marker({
+		    position: myLatlng,
+		    map: map,
+		    title: title
+		});
+	}
+
+	$.ajax({
+		type : "GET",
+		url : "http://icanhazip.com",
+		success : function(resp){
+			console.log(resp);
+			$.ajax({
+				type : "GET",
+				url : "/geoip/" + resp,
+				contentType: 'application/json;charset=UTF-8',
+				beforeSend: function(){
+					$('.gm-style').remove();
+				},
+				success : function(resp){
+					initialize_map(resp['Latitude'], resp['Longitude'], resp['IP Address']);
+				},
+			})
+		},
+		error : function(resp){
+			alert(resp);
+		}
 	});
-}
 
-$('#map-container').css('height', '450px');
 
-initialize_map();
 
-{% endif %}
+	
+
+	
+
+	
+});
+
 </script>
 
 {% endblock %}
