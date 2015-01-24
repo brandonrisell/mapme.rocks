@@ -54,6 +54,7 @@ def geoip_lookup(ip_addr):
 		'City': ip_traits.city.name,
 		'Subdivision' : ip_traits.subdivisions.most_specific.name,
 		'Country': ip_traits.country.name,
+		'Country Code' : resp.country.iso_code,
 		'Latitude' : ip_traits.location.latitude,
 		'Longitude' : ip_traits.location.longitude,
 		}), 200
