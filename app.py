@@ -14,7 +14,7 @@ app.config.from_object(config.Config)
 # GeoIP DB Reader
 reader = geoip2.database.Reader('GeoLite2-City.mmdb')
 
-RDB_HOST =  os.environ.get('RDB_HOST') or '127.0.0.2'
+RDB_HOST =  os.environ.get('RDB_HOST') or '10.10.144.4'
 RDB_PORT = os.environ.get('RDB_PORT') or 28015
 
 @app.before_request
