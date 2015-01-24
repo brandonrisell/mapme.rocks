@@ -52,7 +52,7 @@ def geoip_lookup(ip_addr):
 	return jsonify({
 		'IP Address': ip_addr,
 		'City': ip_traits.city.name,
-		'Subdivision' : resp.subdivisions.most_specific.name,
+		'Subdivision' : ip_traits.subdivisions.most_specific.name,
 		'Country': ip_traits.country.name,
 		'Latitude' : ip_traits.location.latitude,
 		'Longitude' : ip_traits.location.longitude,
