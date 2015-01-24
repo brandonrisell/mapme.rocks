@@ -108,6 +108,10 @@ def findme():
 
 	return render_template('findme.html')
 
+@app.route('/features')
+def features():
+
+	return render_template('features.html')
 
 @app.route('/geoip/<ip_addr>', methods=['GET', 'POST'])
 def geoip_lookup(ip_addr):
