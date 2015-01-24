@@ -77,6 +77,8 @@
 {{ super() }}
 <script type="text/javascript" src="//maps.googleapis.com/maps/api/js?key=AIzaSyA0C2Xi_cPKItEbSokdY-pwmOJCvXfGqik"></script>
 
+<script type="text/javascript" src="/static/markerwithlabel_packed.js"></script>
+
 <script type="text/javascript">
 
 $(document).ready(function(){
@@ -133,6 +135,13 @@ $(document).ready(function(){
 			}
 		});
 
+	var marker = new MarkerWithLabel({
+	   position: myLatlng,
+	   map: map,
+       labelContent: title,
+       labelAnchor: new google.maps.Point(22, 0),
+       labelClass: "marker-label", // the CSS class for the label
+       labelStyle: {opacity: 0.75}
 	});
 });
 
