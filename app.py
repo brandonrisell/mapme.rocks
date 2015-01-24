@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from flask import Flask, request, jsonify, render_template, flash
+from flask import Flask, request, jsonify, render_template, flash, g
 import json, socket, geoip2.database, geoip2.errors, ipaddr, os
 from flask_bootstrap import Bootstrap
 import rethinkdb as r

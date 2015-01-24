@@ -1,0 +1,90 @@
+{% extends "layout.html" %} 
+{% import "bootstrap/wtf.html" as wtf %} 
+
+{% block title %}
+{{ super()}}
+- Find Me
+{% endblock %} 
+
+{% block page_content %}
+{{ super() }}
+
+
+<div class="container">
+	
+	<div class="col-md-12">
+		
+
+		</br>
+
+		<div class="row">
+			<div class="col-md-12 panel panel-success">
+				<div class="panel-heading">
+					<h3 class="panel-title">The Last {{ limit }} Queries</h3>
+				</div>
+				<div class="panel-body text-center">
+			        {% for category, message in get_flashed_messages(with_categories=true) %} 
+			        <div class="alert alert-{{ category }}">
+			        	<button type="button" class="close" data-dismiss="alert">&times;</button>
+			        	{{ message }}
+			        </div>
+			        {% endfor %}
+			        <div id="map-container">
+			        	
+			        </div>
+			    </div>
+			</div>
+		</div>
+
+		
+		
+	</div>
+</div>
+
+</div>
+
+
+
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script type="text/javascript" src="//maps.googleapis.com/maps/api/js?key=AIzaSyA0C2Xi_cPKItEbSokdY-pwmOJCvXfGqik"></script>
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+	
+	console.log('test');
+
+	$('#map-container').css('height', '450px');
+
+	function initialize_map() {
+		var mapOptions = {
+			center: new google.maps.LatLng(20, 0),
+			zoom: 2
+		};
+
+		var map = new google.maps.Map(document.getElementById('map-container'), mapOptions);
+
+		var marker;
+		{% for point in points %}
+			marker = new google.maps.Marker({   
+				position: new google.maps.LatLng({{ point['Latitude'] }}, {{ point['Longitude'] }}),
+			    map: map,
+			    title: "{{ point['IP Address'] }}"
+			});
+		{% endfor %}
+	}
+
+
+	initialize_map({{ points[0]['Latitude'] }}, {{ points[0]['Longitude'] }}, "{{ points[0]['IP Address'] }}");
+
+	
+
+	
+});
+
+</script>
+
+{% endblock %}
