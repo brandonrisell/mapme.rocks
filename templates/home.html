@@ -48,11 +48,12 @@
 				<div class="panel-body text-center">
 			        </br>
 			        <form class="form-inline">
-			        <div class="form-group">
-			        	
+				        <div class="input-group">
 			        	   <input type="text" class="form-control" id="URL" placeholder="example.com">
-		        	 </div>
-			        	  <button type="submit" id="URLSubmit" class="btn btn-success">Lookup</button>
+			        	   <span class="input-group-btn">
+				        	  <button type="submit" id="URLSubmit" class="btn btn-success">Lookup</button>
+			        	  </span>
+			        	 </div>
 		        	</form>
 			        </br>
 			        <div id="map-container">
@@ -81,7 +82,12 @@
 
 <script type="text/javascript">
 
+
 $(document).ready(function(){
+	
+	// $('.input#URL').css('width', '100%');
+	// $('.input-group-btn').css('width', '100%');
+
 	function initialize_map(latitude, longitude, titleText) {
 		var myLatlng = new google.maps.LatLng(latitude, longitude);
 
