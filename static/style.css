@@ -32,6 +32,10 @@ input#URL {
   margin-bottom: 25px;
 }
 
+.bottom-padding {
+  padding-bottom: 25px;
+}
+
 @media (min-width : 992px) {
 	
 	.panel-6-left {
