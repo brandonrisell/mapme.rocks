@@ -53,6 +53,19 @@ img.plugin {
     white-space: nowrap;
 }
 
+#URL {
+  display: table-cell;
+  position: relative;
+  float: left;
+}
+
+#URLSubmit {
+  margin-left: -1px;
+  position: relative;
+  display: inline-block;
+
+}
+
 @media (min-width : 992px) {
 	
   .input-group {
