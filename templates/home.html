@@ -81,7 +81,7 @@ function initialize_map(latitude, longitude, title) {
 
 	var mapOptions = {
 		center: myLatlng,
-		zoom: 8
+		zoom: 10
 	};
 
 	var map = new google.maps.Map(document.getElementById('map-container'), mapOptions);
@@ -113,6 +113,7 @@ $('#URLSubmit').on('click',function(e){
 			$('.btn-success').removeClass('hide');
 			// $('#map-container').append('<p> <strong>' + resp['City'] + ' / ' + resp['Country'] + '</strong> Latitude: ' + resp['Latitude'] + ', Longitude:' + resp['Longitude'] + '</p>');
 			initialize_map(resp['Latitude'], resp['Longitude'], $('input#URL').val());
+			$('#map-container').animate().css('height', '300px');
 			$('input').val('');
 			console.log(resp);
 		},
