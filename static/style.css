@@ -109,9 +109,7 @@ img.plugin {
 }
 
 @media (min-width: 768px) {
-  .form-inline .input-group .input-group-addon,
-  .form-inline .input-group .input-group-btn,
-  .form-inline .input-group .form-control {
+  .form-inline .input-group .input-group-btn {
     width: 1% !important;
   }
 }
