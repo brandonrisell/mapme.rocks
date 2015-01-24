@@ -1,6 +1,6 @@
 #!/usr/bin/env python
-from flask import Flask, request, jsonify, render_template
-import json, socket, geoip2.database, ipaddr
+from flask import Flask, request, jsonify, render_template, flash
+import json, socket, geoip2.database, geoip2.errors, ipaddr
 from flask_bootstrap import Bootstrap
 import config
 
@@ -20,6 +20,26 @@ def get_traits(ip_addr):
 def home():
 
 	return render_template('home.html')
+
+@app.route('/findme')
+def findme():
+
+	try:
+		visitor_traits = get_traits(request.remote_addr)
+	except geoip2.errors.AddressNotFoundError as e:
+		flash(e.message, 'danger')
+		return render_template('findme.html')
+
+	visitor_info = {
+		'IP Address': request.remote_addr,
+		'City': visitor_traits.city.name, 
+		'Country': visitor_traits.country.name,
+		'Latitude' : visitor_traits.location.latitude,
+		'Longitude' : visitor_traits.location.longitude,
+		}
+
+	return render_template('findme.html', visitor_info=visitor_info)
+
 
 @app.route('/geoip/<ip_addr>', methods=['GET', 'POST'])
 def geoip_lookup(ip_addr):

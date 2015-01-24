@@ -1,0 +1,81 @@
+{% extends "layout.html" %} 
+{% import "bootstrap/wtf.html" as wtf %} 
+
+{% block title %}
+{{ super()}}
+- Find Me
+{% endblock %} 
+
+{% block page_content %}
+{{ super() }}
+
+
+<div class="container">
+	
+	<div class="col-md-12">
+		
+
+		</br>
+
+		<div class="row">
+			<div class="col-md-12 panel panel-success">
+				<div class="panel-heading">
+					<h3 class="panel-title">Your Current IP Location</h3>
+				</div>
+				<div class="panel-body text-center">
+			        {% for category, message in get_flashed_messages(with_categories=true) %} 
+			        <div class="alert alert-{{ category }}">
+			        	<button type="button" class="close" data-dismiss="alert">&times;</button>
+			        	{{ message }}
+			        </div>
+			        {% endfor %}
+			        <div id="map-container">
+			        	
+			        </div>
+			    </div>
+			</div>
+		</div>
+
+		
+		
+	</div>
+</div>
+
+</div>
+
+
+
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script type="text/javascript" src="//maps.googleapis.com/maps/api/js?key=AIzaSyA0C2Xi_cPKItEbSokdY-pwmOJCvXfGqik"></script>
+
+{% if visitor_info %}
+<script type="text/javascript">
+
+function initialize_map() {
+	var myLatlng = new google.maps.LatLng({{ visitor_info['Latitude'] }}, {{ visitor_info['Longitude'] }});
+
+	var mapOptions = {
+		center: myLatlng,
+		zoom: 10
+	};
+
+	var map = new google.maps.Map(document.getElementById('map-container'), mapOptions);
+
+	var marker = new google.maps.Marker({
+	    position: myLatlng,
+	    map: map,
+	    title: "{{ visitor_info['IP Address'] }}"
+	});
+}
+
+$('#map-container').css('height', '450px');
+
+initialize_map();
+
+{% endif %}
+</script>
+
+{% endblock %}
