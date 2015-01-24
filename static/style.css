@@ -27,7 +27,15 @@ img.plugin {
 
 /*########  Special Layouts ########*/
 
-#map-container { height: 0; margin: 0; padding: 0;}
+#map-container { 
+  height: 0; 
+  margin: 0; 
+  padding: 0;
+}
+
+.input-group {
+  width: 100% !important;
+}
 
 .bottom-padding {
   padding-bottom: 25px;
@@ -47,8 +55,8 @@ img.plugin {
 
 @media (min-width : 992px) {
 	
-  #URL {
-    width: 700px;
+  .input-group {
+    width: 100%;
   }
 
 	.panel-6-left {
@@ -88,29 +96,16 @@ img.plugin {
 
 }
 
-@media (max-width : 600px) {
-
-  #URL {
-    width: 300px;
-  }
-}
-
-@media (max-width : 400px) {
-
-  #URL {
-    width: 150px;
-  }
-}
-
 @media (max-width : 992px) {
   
+  .input-group {
+    width: 100% !important;
+  }
+
   .panel-6-right {
     min-height: 320px;
   }
 
-  #URL {
-    width: 400px;
-  }
 }
 
 .logo-title {
