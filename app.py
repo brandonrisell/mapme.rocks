@@ -91,8 +91,8 @@ def home_dest(destination):
 		flash(e.message, 'danger')
 		return render_template('home.html')		
 
-@app.route('/tail/')
-def tail():
+@app.route('/feed/')
+def feed():
 
 	try:
 		limit = int(request.args.get('limit')) or 20
