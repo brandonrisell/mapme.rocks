@@ -92,7 +92,7 @@ $('#URLSubmit').on('click',function(e){
 		success : function(resp){
 			loading.remove();
 			$('.btn-success').removeClass('hide');
-			$('.results').append('<p> <strong>' + resp['City'] + ' / ' + resp['Country'] + '</strong> Latitude: ' + resp['Latitude'] + ', Longitude:' + resp['Latitude'] + '</p>');
+			$('.results').append('<p> <strong>' + resp['City'] + ' / ' + resp['Country'] + '</strong> Latitude: ' + resp['Latitude'] + ', Longitude:' + resp['Longitude'] + '</p>');
 			$('input').val('');
 			console.log(resp);
 		},
