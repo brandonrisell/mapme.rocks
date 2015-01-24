@@ -91,12 +91,14 @@ def home_dest(destination):
 		flash(e.message, 'danger')
 		return render_template('home.html')		
 
-@app.route('/tail/<int:limit>')
-def tail(limit):
+@app.route('/tail/')
+def tail():
 
-	if not limit or not isinstance(limit, int):
+	try:
+		limit = int(request.args.get('limit')) or 20
+	except TypeError:
 		limit = 20
-
+		
 	points = [x for x in r.table('queries').limit(limit).run(g.rdb_conn)]
 
 	return render_template('tail.html', points=points, limit=limit)
