@@ -99,9 +99,6 @@ $(document).ready(function(){
 	  }
 	});
 
-	// $('.input#URL').css('width', '100%');
-	// $('.input-group-btn').css('width', '100%');
-
 	function initialize_map(latitude, longitude, titleText) {
 		var myLatlng = new google.maps.LatLng(latitude, longitude);
 
@@ -152,7 +149,6 @@ $(document).ready(function(){
 					$('#map-container').animate({height: 450}, 1200, function(){ 
 						$('#map-container').css('height', '450px');
 						initialize_map(resp['Latitude'], resp['Longitude'], $('input#URL').val());
-						$('input').val('');
 					});
 				},
 				error : function(resp){
