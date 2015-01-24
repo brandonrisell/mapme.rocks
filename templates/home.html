@@ -52,7 +52,7 @@
 		        	  <button type="submit" id="URLSubmit" class="btn btn-success">Lookup</button>
 		        	</form>
 			        </br>
-			        <div id="map-container" class="results">
+			        <div id="map-container">
 			        	
 			        </div>
 			    </div>
@@ -111,7 +111,7 @@ $('#URLSubmit').on('click',function(e){
 			loading.remove();
 			$('.hero').fadeOut();
 			$('.btn-success').removeClass('hide');
-			// $('.results').append('<p> <strong>' + resp['City'] + ' / ' + resp['Country'] + '</strong> Latitude: ' + resp['Latitude'] + ', Longitude:' + resp['Longitude'] + '</p>');
+			// $('#map-container').append('<p> <strong>' + resp['City'] + ' / ' + resp['Country'] + '</strong> Latitude: ' + resp['Latitude'] + ', Longitude:' + resp['Longitude'] + '</p>');
 			initialize_map(resp['Latitude'], resp['Longitude'], $('input#URL').val());
 			$('input').val('');
 			console.log(resp);
