@@ -76,8 +76,8 @@
 
 <script type="text/javascript">
 
-function initialize_map(lat, long, title) {
-	var myLatlng = new google.maps.LatLng(lat, long);
+function initialize_map(latitude, longitude, title) {
+	var myLatlng = new google.maps.LatLng(latitude, longitude);
 
 	var mapOptions = {
 		center: myLatlng,
@@ -112,7 +112,7 @@ $('#URLSubmit').on('click',function(e){
 			$('.hero').fadeOut();
 			$('.btn-success').removeClass('hide');
 			// $('.results').append('<p> <strong>' + resp['City'] + ' / ' + resp['Country'] + '</strong> Latitude: ' + resp['Latitude'] + ', Longitude:' + resp['Longitude'] + '</p>');
-			initialize_map(resp['Latitude'], resp['Longitude'], $('input#URL').val())
+			initialize_map(resp['Latitude'], resp['Longitude'], $('input#URL').val());
 			$('#map-container').fadeIn();
 			$('input').val('');
 			console.log(resp);
