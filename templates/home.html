@@ -110,10 +110,10 @@ $('#URLSubmit').on('click',function(e){
 		success : function(resp){
 			loading.remove();
 			$('.btn-success').removeClass('hide');
-			$('.hero').animate({height: 0}, 3000, function(){ 
+			$('.hero').animate({height: 0}, 1800, function(){ 
 				$('.hero').hide();
 			});
-			$('#map-container').animate({height: 450}, 3000, function(){ 
+			$('#map-container').animate({height: 450}, 1800, function(){ 
 				$('#map-container').css('height', '450px');
 				initialize_map(resp['Latitude'], resp['Longitude'], $('input#URL').val());
 			});
