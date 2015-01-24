@@ -67,8 +67,8 @@ def geoip_lookup(ip_addr):
 	
 	try:
 		details = get_traits(ip_addr)
-	except ValueError as e:
-		return jsonify({'Error': e.message}), 400
+	except Exception as e:
+		return jsonify({"Error": "'" + ip_addr + "' is not a valid domain name or IP address."}), 400
 
 	return jsonify(details), 200
 

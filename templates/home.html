@@ -48,8 +48,11 @@
 				<div class="panel-heading">
 					<h3 class="panel-title">Find location of a domain below</h3>
 				</div>
-				<div class="panel-body text-center">
+				<div class="panel-body">
 			        </br>
+			        <div class="alert-box">
+			        	
+			        </div>
 			        <form class="form-inline">
 				        <div class="input-group">
 			        	   <input type="text" class="form-control" id="URL" placeholder="example.com">
@@ -141,6 +144,7 @@ $(document).ready(function(){
 				contentType: 'application/json;charset=UTF-8',
 				beforeSend: function(){
 					$('.gm-style').remove();
+					$('.alert-warning').remove();
 				},
 				success : function(resp){
 					$('.hero').animate({height: 0}, 1200, function(){ 
@@ -154,6 +158,8 @@ $(document).ready(function(){
 				},
 				error : function(resp){
 					$('.hero').fadeIn();
+					console.log(resp);
+					$('.alert-box').append('<div class="alert alert-warning alert-dismissible" role="alert">					  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>					  <strong>' + resp.responseJSON['Error'] + '</div>');
 				}
 			});
 		});
