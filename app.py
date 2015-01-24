@@ -1,8 +1,13 @@
 #!/usr/bin/env python
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 import json, socket, geoip2.database, ipaddr
+from flask_bootstrap import Bootstrap
+import config
 
 app = Flask(__name__)
+bootstrap = Bootstrap(app)
+
+app.config.from_object(config.Config)
 
 # GeoIP DB Reader
 reader = geoip2.database.Reader('GeoLite2-City.mmdb')
@@ -14,7 +19,7 @@ def get_traits(ip_addr):
 @app.route('/')
 def home():
 
-	return 'Map Me'
+	return render_template('home.html')
 
 @app.route('/geoip/<ip_addr>', methods=['GET', 'POST'])
 def geoip_lookup(ip_addr):
@@ -48,4 +53,4 @@ def geoip_lookup(ip_addr):
 
 
 if __name__ == '__main__': 
-	app.run(host='0.0.0.0', debug=True, port=8080)
+	app.run(host='0.0.0.0', debug=True, port=5000)
