@@ -8,10 +8,17 @@ html, body, #map-container { height: 100%; margin: 0; padding: 0;}
 <script type="text/javascript">
 function initialize() {
 	var mapOptions = {
-		center: { lat: 37.5058, lng: 120.8489 },
+		center: { lat: 120.8489, lng: 37.5058 },
 		zoom: 8
 	};
+
 	var map = new google.maps.Map(document.getElementById('map-container'), mapOptions);
+
+	var marker = new google.maps.Marker({
+    position: { lat: 120.8489, lng: 37.5058 },
+    map: map,
+    title:"Turlock!"
+});
 }
 google.maps.event.addDomListener(window, 'load', initialize);
 </script>
