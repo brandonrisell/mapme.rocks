@@ -32,9 +32,12 @@
 			        	</br>
 			        	<p>Many questionable websites can be hiding behind clever domain names. </p>
 			        	<p>Don't fall for their tricks. Know where you're browsing while you browse.</p>
+			        	</br>
+			        	<p>Use our <a href="/static/extension.crx" id="popover" rel="popover" >Chrome extension</a> to warn you of possibly unsafe sites.</p>
+
 			        </div>
-			        <div class="col-md-5 pull-right">
-			        	<img src="/static/earth.png" class="bottom-padding">
+			        <div class="col-md-5 pull-right bottom-padding">
+			        	<img class="pull-right" src="/static/earth.png" class="bottom-padding">
 			        </div>
 			    </div>
 			</div>
@@ -45,8 +48,11 @@
 				<div class="panel-heading">
 					<h3 class="panel-title">Find location of a domain below</h3>
 				</div>
-				<div class="panel-body text-center">
+				<div class="panel-body">
 			        </br>
+			        <div class="alert-box">
+			        	
+			        </div>
 			        <form class="form-inline">
 				        <div class="input-group">
 			        	   <input type="text" class="form-control" id="URL" placeholder="example.com">
@@ -78,13 +84,21 @@
 {{ super() }}
 <script type="text/javascript" src="//maps.googleapis.com/maps/api/js?key=AIzaSyA0C2Xi_cPKItEbSokdY-pwmOJCvXfGqik"></script>
 
-<script type="text/javascript" src="//www.mapme.rocks/static/markerwithlabel_packed.js"></script>
+<script type="text/javascript" src="/static/markerwithlabel_packed.js"></script>
 
 <script type="text/javascript">
 
 
 $(document).ready(function(){
 	
+	$('a[rel=popover]').popover({
+	  html: true,
+	  trigger: 'hover',
+	  content: function () {
+	    return '<div style="height: 30%; width: auto;"><img src="/static/extension.png"></div>';
+	  }
+	});
+
 	// $('.input#URL').css('width', '100%');
 	// $('.input-group-btn').css('width', '100%');
 
@@ -103,67 +117,51 @@ $(document).ready(function(){
 		    map: map,
 		    title: titleText,
 		    labelContent: titleText,
-       		labelAnchor: new google.maps.Point(25, 0),
+       		labelAnchor: new google.maps.Point(-15, 30),
 		    labelClass: "marker-label",
 		    animation: google.maps.Animation.DROP
 		});
 	}
 
 	{% if destination %}
-		console.log('has dest');
 		$('.hero').animate({height: 0}, 1800, function(){ 
 			$('.hero').hide();
 		});
 		$('#map-container').animate({height: 450}, 1800, function(){ 
 			$('#map-container').css('height', '450px');
-			initialize_map({{ destination['Latitude'] }}, {{ destination['Longitude'] }}, "{{ destination['IP Address'] }}");
+			initialize_map({{ destination['Latitude'] }}, {{ destination['Longitude'] }}, "{{ destination['Domain Name'] }}");
 		});
 
 	{% else %}
-		var loading = $('<div style="text-center"><i class="fa fa-spin fa-2x text-center fa-spinner"></i></div>');
 
 		$('#URLSubmit').on('click',function(e){
 			e.preventDefault();
-
-			$('.btn-success').addClass('hide');
 
 			$.ajax({
 				type : "GET",
 				url : "/geoip/" + $('input#URL').val(),
 				contentType: 'application/json;charset=UTF-8',
 				beforeSend: function(){
-					$('.col-md-2').append(loading);
 					$('.gm-style').remove();
+					$('.alert-warning').remove();
 				},
 				success : function(resp){
-					loading.remove();
-					$('.btn-success').removeClass('hide');
 					$('.hero').animate({height: 0}, 1200, function(){ 
 						$('.hero').hide();
 					});
 					$('#map-container').animate({height: 450}, 1200, function(){ 
 						$('#map-container').css('height', '450px');
 						initialize_map(resp['Latitude'], resp['Longitude'], $('input#URL').val());
+						$('input').val('');
 					});
-					$('input').val('');
 				},
 				error : function(resp){
-					alert(resp['responseText']);
-					loading.remove();
 					$('.hero').fadeIn();
-					$('.btn-success').removeClass('hide');
-		       loading.remove();
+					$('.alert-box').append('<div class="alert alert-warning alert-dismissible" role="alert">					  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>					  <strong>' + resp.responseJSON['Error'] + '</div>');
 				}
 			});
 		});
 
-		var marker = new MarkerWithLabel({
-		   position: myLatlng,
-		   map: map,
-	       labelContent: title,
-	       labelAnchor: new google.maps.Point(22, 0),
-	       labelClass: "marker-label"
-		});
 	{% endif %}
 });
 

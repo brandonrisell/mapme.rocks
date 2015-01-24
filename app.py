@@ -1,7 +1,9 @@
 #!/usr/bin/env python
-from flask import Flask, request, jsonify, render_template, flash
-import json, socket, geoip2.database, geoip2.errors, ipaddr
+from flask import Flask, request, jsonify, render_template, flash, g
+import json, socket, geoip2.database, geoip2.errors, ipaddr, os
 from flask_bootstrap import Bootstrap
+import rethinkdb as r
+from rethinkdb.errors import RqlRuntimeError, RqlDriverError
 import config
 
 app = Flask(__name__)
@@ -12,12 +14,45 @@ app.config.from_object(config.Config)
 # GeoIP DB Reader
 reader = geoip2.database.Reader('GeoLite2-City.mmdb')
 
+RDB_HOST =  os.environ.get('RDB_HOST') or '127.0.0.2'
+RDB_PORT = os.environ.get('RDB_PORT') or 28015
+RDB_NAME = 'mapme'
+
+# db setup; only run once
+def dbSetup():
+    connection = r.connect(host=RDB_HOST, port=RDB_PORT)
+    try:
+        r.db_create(RDB_NAME).run(connection)
+        r.db(RDB_NAME).table_create('queries').run(connection)
+        print 'Database setup completed'
+    except RqlRuntimeError:
+        print 'Database already exists.'
+    finally:
+        connection.close()
+dbSetup()
+
+@app.before_request
+def before_request():
+    try:
+        g.rdb_conn = r.connect(host=RDB_HOST, port=RDB_PORT, db=RDB_NAME)
+    except RqlDriverError:
+        abort(503, "No database connection could be established.")
+
+@app.teardown_request
+def teardown_request(exception):
+    try:
+        g.rdb_conn.close()
+    except AttributeError:
+        pass
+
 def get_traits(ip_addr):
 
 	try:
 		ipaddr.IPAddress(ip_addr)
+		domain_name = socket.gethostbyaddr(ip_addr)[0]
 	except (ValueError, ipaddr.AddressValueError) as e:
-		ip_addr = socket.gethostbyname(ip_addr)
+		domain_name = ip_addr
+		ip_addr = socket.gethostbyname(domain_name)
 
 	traits = reader.city(ip_addr)
 
@@ -29,7 +64,11 @@ def get_traits(ip_addr):
 			'Country Code' : traits.country.iso_code,
 			'Latitude' : traits.location.latitude,
 			'Longitude' : traits.location.longitude,
+			'Domain Name' : domain_name
 			}
+
+	# store query for history
+	inserted = r.table('queries').insert(details).run(g.rdb_conn)
 
 	return details
 
@@ -52,6 +91,17 @@ def home_dest(destination):
 		flash(e.message, 'danger')
 		return render_template('home.html')		
 
+@app.route('/tail/')
+def tail():
+
+	try:
+		limit = int(request.args.get('limit')) or 20
+	except TypeError:
+		limit = 20
+		
+	points = [x for x in r.table('queries').limit(limit).run(g.rdb_conn)]
+
+	return render_template('tail.html', points=points, limit=limit)
 
 @app.route('/findme')
 def findme():
@@ -64,8 +114,8 @@ def geoip_lookup(ip_addr):
 	
 	try:
 		details = get_traits(ip_addr)
-	except ValueError as e:
-		return jsonify({'Error': e.message}), 400
+	except Exception as e:
+		return jsonify({"Error": "'" + ip_addr + "' is not a valid domain name or IP address."}), 400
 
 	return jsonify(details), 200
 

@@ -33,10 +33,6 @@ img.plugin {
   padding: 0;
 }
 
-.input-group {
-  width: 100% !important;
-}
-
 .bottom-padding {
   padding-bottom: 25px;
 }
@@ -48,7 +44,8 @@ img.plugin {
     font-size: 10px;
     font-weight: bold;
     text-align: center;
-    width: 50px;     
+    width: auto;
+    padding: 5px 10px;     
     border: 2px solid black;
     white-space: nowrap;
 }

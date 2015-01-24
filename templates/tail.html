@@ -20,7 +20,7 @@
 		<div class="row">
 			<div class="col-md-12 panel panel-success">
 				<div class="panel-heading">
-					<h3 class="panel-title">Your Current IP Location</h3>
+					<h3 class="panel-title">The Last {{ limit }} Queries</h3>
 				</div>
 				<div class="panel-body text-center">
 			        {% for category, message in get_flashed_messages(with_categories=true) %} 
@@ -50,59 +50,35 @@
 {% block scripts %}
 {{ super() }}
 <script type="text/javascript" src="//maps.googleapis.com/maps/api/js?key=AIzaSyA0C2Xi_cPKItEbSokdY-pwmOJCvXfGqik"></script>
-<script type="text/javascript" src="/static/markerwithlabel_packed.js"></script>
 
 <script type="text/javascript">
 
 $(document).ready(function(){
 	
+	console.log('test');
+
 	$('#map-container').css('height', '450px');
 
-	function initialize_map(latitude, longitude, titleText) {
-		var myLatlng = new google.maps.LatLng(latitude, longitude);
-
+	function initialize_map() {
 		var mapOptions = {
-			center: myLatlng,
-			zoom: 10
+			center: new google.maps.LatLng(20, 0),
+			zoom: 2
 		};
 
 		var map = new google.maps.Map(document.getElementById('map-container'), mapOptions);
 
-		var marker = new MarkerWithLabel({
-		    position: myLatlng,
-		    map: map,
-		    title: titleText,
-		    labelContent: titleText,
-       		labelAnchor: new google.maps.Point(-15, 30),
-		    labelClass: "marker-label",
-		    animation: google.maps.Animation.DROP
-		});
+		var marker;
+		{% for point in points %}
+			marker = new google.maps.Marker({   
+				position: new google.maps.LatLng({{ point['Latitude'] }}, {{ point['Longitude'] }}),
+			    map: map,
+			    title: "{{ point['IP Address'] }}"
+			});
+		{% endfor %}
 	}
 
-	$.ajax({
-		type : "GET",
-		url : "http://icanhazip.com",
-		success : function(resp){
-			$.ajax({
-				type : "GET",
-				url : "/geoip/" + resp,
-				contentType: 'application/json;charset=UTF-8',
-				beforeSend: function(){
-					$('.gm-style').remove();
-				},
-				success : function(resp){
-					initialize_map(resp['Latitude'], resp['Longitude'], resp['Domain Name']);
-				},
-			})
-		},
-		error : function(resp){
-			alert(resp);
-		}
-	});
 
-
-
-	
+	initialize_map({{ points[0]['Latitude'] }}, {{ points[0]['Longitude'] }}, "{{ points[0]['IP Address'] }}");
 
 	
 

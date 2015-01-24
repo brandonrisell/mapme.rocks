@@ -1,4 +1,6 @@
-
+window.onload = function() {
+    document.getElementById("URL").tabIndex = "1";
+};
 
 // Grab the Url that the user queried
 chrome.tabs.query({'active': true, 'lastFocusedWindow': true}, function (tabs) {
@@ -67,7 +69,6 @@ document.getElementById("mapit").onclick = function(e){
   var ip_addr = document.getElementById('ip_addr').innerHTML;
   chrome.tabs.create({ url: "http://www.mapme.rocks/dest/" + ip_addr });
 };
-
 
 var warningCheckbox = document.getElementById("warning-checkbox")
 warningCheckbox.addEventListener('change', function() {
