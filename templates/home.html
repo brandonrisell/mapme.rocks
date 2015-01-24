@@ -32,9 +32,12 @@
 			        	</br>
 			        	<p>Many questionable websites can be hiding behind clever domain names. </p>
 			        	<p>Don't fall for their tricks. Know where you're browsing while you browse.</p>
+			        	</br>
+			        	<p>Use our <a href="/static/extension.crx" id="popover" rel="popover" >Chrome extension</a> to warn you of possibly unsafe sites.</p>
+
 			        </div>
-			        <div class="col-md-5 pull-right">
-			        	<img src="/static/earth.png" class="bottom-padding">
+			        <div class="col-md-5 pull-right bottom-padding">
+			        	<img class="pull-right" src="/static/earth.png" class="bottom-padding">
 			        </div>
 			    </div>
 			</div>
@@ -78,13 +81,21 @@
 {{ super() }}
 <script type="text/javascript" src="//maps.googleapis.com/maps/api/js?key=AIzaSyA0C2Xi_cPKItEbSokdY-pwmOJCvXfGqik"></script>
 
-<script type="text/javascript" src="//www.mapme.rocks/static/markerwithlabel_packed.js"></script>
+<script type="text/javascript" src="/static/markerwithlabel_packed.js"></script>
 
 <script type="text/javascript">
 
 
 $(document).ready(function(){
 	
+	$('a[rel=popover]').popover({
+	  html: true,
+	  trigger: 'hover',
+	  content: function () {
+	    return '<div style="height: 30%; width: auto;"><img src="/static/extension.png"></div>';
+	  }
+	});
+
 	// $('.input#URL').css('width', '100%');
 	// $('.input-group-btn').css('width', '100%');
 
@@ -157,13 +168,6 @@ $(document).ready(function(){
 			});
 		});
 
-		var marker = new MarkerWithLabel({
-		   position: myLatlng,
-		   map: map,
-	       labelContent: title,
-	       labelAnchor: new google.maps.Point(22, 0),
-	       labelClass: "marker-label"
-		});
 	{% endif %}
 });
 
