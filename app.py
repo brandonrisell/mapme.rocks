@@ -2,6 +2,8 @@
 from flask import Flask, request, jsonify, render_template, flash
 import json, socket, geoip2.database, geoip2.errors, ipaddr
 from flask_bootstrap import Bootstrap
+import rethinkdb as r
+from rethinkdb.errors import RqlRuntimeError, RqlDriverError
 import config
 
 app = Flask(__name__)
@@ -11,6 +13,23 @@ app.config.from_object(config.Config)
 
 # GeoIP DB Reader
 reader = geoip2.database.Reader('GeoLite2-City.mmdb')
+
+RDB_HOST =  os.environ.get('RDB_HOST') or 'localhost'
+RDB_PORT = os.environ.get('RDB_PORT') or 28015
+
+@app.before_request
+def before_request():
+    try:
+        g.rdb_conn = r.connect(host=RDB_HOST, port=RDB_PORT, db='mapme')
+    except RqlDriverError:
+        abort(503, "No database connection could be established.")
+
+@app.teardown_request
+def teardown_request(exception):
+    try:
+        g.rdb_conn.close()
+    except AttributeError:
+        pass
 
 def get_traits(ip_addr):
 
@@ -34,6 +53,9 @@ def get_traits(ip_addr):
 			'Domain Name' : domain_name
 			}
 
+	# store query for history
+	inserted = r.table('queries').insert(details).run(g.rdb_conn)
+	
 	return details
 
 @app.route('/')
@@ -55,6 +77,15 @@ def home_dest(destination):
 		flash(e.message, 'danger')
 		return render_template('home.html')		
 
+@app.route('/tail/<int:limit>')
+def tail(limit):
+
+	if not limit or not isinstance(limit, int):
+		limit = 20
+
+	points = [x for x in r.table('queries').limit(limit).run(g.rdb_conn)]
+
+	return render_template('tail.html', points=points, limit=limit)
 
 @app.route('/findme')
 def findme():
