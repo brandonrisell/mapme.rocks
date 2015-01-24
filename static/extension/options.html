@@ -1,0 +1,27 @@
+<html>
+<head>
+<meta charset="utf-8">
+<title>Options</title>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<style type="text/css">
+	textarea {
+		display: block;
+		height: 150px;
+		margin-bottom: 20px;
+	}
+</style>
+</head>
+<body class="container">
+<h2>Options</h2>
+<form>
+<input type="checkbox" id="warning-checkbox"><label for="warning-list">Countries to warn on</label>
+<textarea id="warning-list"></textarea>
+
+<input type="checkbox" id="block-checkbox"><label for="block-list">Countries to block and stop navigation to</label>
+<textarea id="block-list"></textarea>
+<button id="save" type="button">Save</button>
+</form>
+<script src="options.js"></script>
+</body>
+</html>

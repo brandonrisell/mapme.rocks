@@ -67,3 +67,31 @@ document.getElementById("mapit").onclick = function(e){
   var ip_addr = document.getElementById('ip_addr').innerHTML;
   chrome.tabs.create({ url: "http://www.mapme.rocks/dest/" + ip_addr });
 };
+
+
+var warningCheckbox = document.getElementById("warning-checkbox")
+warningCheckbox.addEventListener('change', function() {
+  chrome.storage.local.set({
+    warningListEnabled: warningCheckbox.checked
+  }, function() {
+  });
+});
+chrome.storage.local.get('warningListEnabled', function(data) {
+  if(data && data.warningListEnabled) {
+    warningCheckbox.checked = data.warningListEnabled;
+  }
+});
+
+
+var blockCheckbox = document.getElementById("block-checkbox")
+blockCheckbox.addEventListener('change', function() {
+  chrome.storage.local.set({
+    blockListEnabled: blockCheckbox.checked
+  }, function() {
+  });
+});
+chrome.storage.local.get('blockListEnabled', function(data) {
+  if(data && data.blockListEnabled) {
+    blockCheckbox.checked = data.blockListEnabled;
+  }
+});

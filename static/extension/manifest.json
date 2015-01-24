@@ -20,5 +20,6 @@
     "http://*/*",
     "https://*/*",
     "storage"
-  ]
+  ],
+  "options_page": "options.html"
 }

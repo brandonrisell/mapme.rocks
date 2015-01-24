@@ -10,6 +10,15 @@
 		width: 400px;
 		background: #193341;
 	}
+
+	.half-fill {
+		width: 50%;
+		float: left;
+	}
+	.half-fill label {
+		margin-left: 5px;
+	}
+
 </style>
 <body>
   
@@ -40,6 +49,8 @@
 	    	  </span>
 	    	 </div>
 		</form>
+		<div class="warning-check half-fill"><input type="checkbox" id="warning-checkbox"><label>Warning list enabled</label></div>
+		<div class="block-check half-fill"><input type="checkbox" id="block-checkbox"><label>Block list enabled</label></div>
 	</div>
   <script src="map-me.js"></script>
 </body>
