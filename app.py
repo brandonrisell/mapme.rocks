@@ -11,6 +11,11 @@ def get_traits(ip_addr):
 
 	return reader.city(ip_addr)
 
+@app.route('/')
+def home():
+
+	return 'Map Me'
+
 @app.route('/geoip/<ip_addr>', methods=['GET', 'POST'])
 def geoip_lookup(ip_addr):
 	
