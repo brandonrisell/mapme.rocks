@@ -57,6 +57,7 @@ img.plugin {
   display: table-cell;
   position: relative;
   float: left;
+  width: auto;
 }
 
 #URLSubmit {
