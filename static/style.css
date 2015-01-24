@@ -45,12 +45,26 @@ img.plugin {
     color: red;
     background-color: white;
     font-family: "Lucida Grande", "Arial", sans-serif;
-    font-size: 50px;
+    font-size: 10px;
     font-weight: bold;
     text-align: center;
-    width: 400px;     
+    width: 50px;     
     border: 2px solid black;
     white-space: nowrap;
+}
+
+#URL {
+  display: table-cell;
+  position: relative;
+  float: left;
+  width: auto;
+}
+
+#URLSubmit {
+  margin-left: -1px;
+  position: relative;
+  display: inline-block;
+
 }
 
 @media (min-width : 992px) {
