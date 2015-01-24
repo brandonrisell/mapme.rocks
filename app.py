@@ -24,21 +24,7 @@ def home():
 @app.route('/findme')
 def findme():
 
-	try:
-		visitor_traits = get_traits(request.environ.get('HTTP_X_REAL_IP', request.environ['REMOTE_ADDR']))
-	except geoip2.errors.AddressNotFoundError as e:
-		flash(e.message, 'danger')
-		return render_template('findme.html')
-
-	visitor_info = {
-		'IP Address': request.remote_addr,
-		'City': visitor_traits.city.name, 
-		'Country': visitor_traits.country.name,
-		'Latitude' : visitor_traits.location.latitude,
-		'Longitude' : visitor_traits.location.longitude,
-		}
-
-	return render_template('findme.html', visitor_info=visitor_info)
+	return render_template('findme.html')
 
 
 @app.route('/geoip/<ip_addr>', methods=['GET', 'POST'])
