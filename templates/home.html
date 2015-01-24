@@ -138,10 +138,10 @@ $(document).ready(function(){
 				success : function(resp){
 					loading.remove();
 					$('.btn-success').removeClass('hide');
-					$('.hero').animate({height: 0}, 1800, function(){ 
+					$('.hero').animate({height: 0}, 1200, function(){ 
 						$('.hero').hide();
 					});
-					$('#map-container').animate({height: 450}, 1800, function(){ 
+					$('#map-container').animate({height: 450}, 1200, function(){ 
 						$('#map-container').css('height', '450px');
 						initialize_map(resp['Latitude'], resp['Longitude'], $('input#URL').val());
 					});

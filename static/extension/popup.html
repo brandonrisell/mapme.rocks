@@ -1,15 +1,31 @@
 <html>
 <head>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 </head>
 <body style="width: 400px">
-  Browsed URL:
-  <input id="userURL" type="text" size=50 value="" />
-  <div id="div1"></div>
-  <div id="div2"></div>
-  <div id="div3"></div>
+  
+  <div class="col-md-12">
+  	
+  <h3><span id="title1"></span><small id="ip_addr" class="pull-right" style="margin-right: 15px;"> </small></h3>
+  <h4><span id="title2"> </span><span id="flag" class="pull-right" style="margin-right: 15px;"> </span></h4>
+  <a id="mapit">
+  	<p class="pull-right">Map It >></p>
+  </a>
+  
+  	</br>
+  	<h5>Lookup another domain:</h5>
+    <form class="form-inline">
+        <div class="input-group">
+    	   <input type="text" class="form-control" id="URL" placeholder="example.com">
+    	   <span class="input-group-btn">
+        	  <button type="submit" id="URLSubmit" class="btn btn-success">Lookup</button>
+    	  </span>
+    	 </div>
+	</form>
+	</div>
   <script src="map-me.js"></script>
 </body>
 </html>
+
+

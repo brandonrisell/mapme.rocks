@@ -5,7 +5,6 @@ chrome.tabs.query({'active': true, 'lastFocusedWindow': true}, function (tabs) {
 
   // Grab the URL and put it in the input
   var mm = tabs[0].url;
-  document.getElementById('userURL').value = mm;
 
   // Parse the whole Url and grab only the hostname
   var parser = document.createElement('a');
@@ -21,14 +20,42 @@ chrome.tabs.query({'active': true, 'lastFocusedWindow': true}, function (tabs) {
     if (xhr.readyState == 4) {
 
       var jsonObj = JSON.parse(xhr.responseText);
-      var output = "City: " + jsonObj.City + "<br>";
-      output += "Country: " + jsonObj.Country + "<br>";
-      output += "IP Address: " + jsonObj["IP Address"] + "<br>";
-      output += "Latitude: " + jsonObj.Latitude + "<br>";
-      output += "Longitude: " + jsonObj.Longitude + "<br>";
-      document.getElementById('div1').innerHTML = output;
+      if (jsonObj.Cityvar) {
+        var title1 = jsonObj.City + " / " + jsonObj.Subdivision;
+      } else {
+        var title1 = jsonObj.Subdivision;
+      }
+      var title2 = jsonObj.Country;
+      var ip_addr = jsonObj['IP Address'];
+      
+      document.getElementById('title1').innerHTML = title1;
+      document.getElementById('title2').innerHTML = title2;
+      document.getElementById('ip_addr').innerHTML = ip_addr;
+
+      var a = document.getElementById('mapit'); //or grab it by tagname etc
+      a.href = "http://www.mapme.rocks/dest/" + ip_addr;
+
+      document.getElementById('flag').innerHTML = '<img id="myImage" src="http://geotree.geonames.org/img/flags18/' + jsonObj['Country Code'] + '.png" />';
+
     }
   }
+
   xhr.send();
 
+
+
 });
+
+document.getElementById("URLSubmit").onclick = function(e){ 
+  e.preventDefault();
+
+  var ip_addr = document.getElementById('URL').value;
+  chrome.tabs.create({ url: "http://www.mapme.rocks/dest/" + ip_addr });
+};
+
+document.getElementById("mapit").onclick = function(e){ 
+  e.preventDefault();
+
+  var ip_addr = document.getElementById('ip_addr').innerHTML;
+  chrome.tabs.create({ url: "http://www.mapme.rocks/dest/" + ip_addr });
+};
