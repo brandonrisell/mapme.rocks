@@ -20,10 +20,18 @@ chrome.tabs.query({'active': true, 'lastFocusedWindow': true}, function (tabs) {
     if (xhr.readyState == 4) {
 
       var jsonObj = JSON.parse(xhr.responseText);
-      if (jsonObj.Cityvar) {
-        var title1 = jsonObj.City + " / " + jsonObj.Subdivision;
-      } else {
-        var title1 = jsonObj.Subdivision;
+      var title1 = "";
+      if (jsonObj.City != null && jsonObj.City != "") {
+        title1 = jsonObj.City;
+      }
+      if (jsonObj.Subdivision != null && jsonObj.Subdivision != "") {
+        if(title1 != "") {
+          title1 += " / " + jsonObj.Subdivision;
+        }
+        else {
+          title1 = jsonObj.Subdivision;
+        }
+
       }
       var title2 = jsonObj.Country;
       var ip_addr = jsonObj['IP Address'];
