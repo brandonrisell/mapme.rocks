@@ -74,6 +74,9 @@
 {{ super() }}
 <script type="text/javascript" src="//maps.googleapis.com/maps/api/js?key=AIzaSyA0C2Xi_cPKItEbSokdY-pwmOJCvXfGqik"></script>
 
+markerwithlabel_packed.js
+<script type="text/javascript" src="/markerwithlabel_packed.js"></script>
+
 <script type="text/javascript">
 
 function initialize_map(latitude, longitude, title) {
@@ -86,10 +89,14 @@ function initialize_map(latitude, longitude, title) {
 
 	var map = new google.maps.Map(document.getElementById('map-container'), mapOptions);
 
-	var marker = new google.maps.Marker({
-	    position: myLatlng,
-	    map: map,
-	    title: title
+	var marker = new MarkerWithLabel({
+	   position: myLatlng,
+	   map: map,
+	   animation: google.maps.Animation.DROP,
+       labelContent: title,
+       labelAnchor: new google.maps.Point(22, 0),
+       labelClass: "markerLabel", // the CSS class for the label
+       labelStyle: {opacity: 0.75}
 	});
 }
 
