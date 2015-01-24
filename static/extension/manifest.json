@@ -1,0 +1,26 @@
+{
+  "manifest_version": 2,
+  "name": "Map Me",
+  "description": "Chrome Extension",
+  "version": "1.0",
+
+  "browser_action": {
+    "default_icon": "img/mm16.png",
+    "default_popup":"popup.html",
+    "default_titel":"Map Me",
+    "icons" : {
+      "16": "img/mm16.png",
+      "48": "img/mm48.png",
+      "128": "img/mm128.png"
+    }
+  },
+  "permissions": [
+    "tabs",
+    "notifications",
+    "http://*/*",
+    "https://*/*",
+    "storage"
+  ]
+
+
+}
