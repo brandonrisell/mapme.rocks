@@ -54,16 +54,16 @@ img.plugin {
 }
 
 #URL {
-  display: table-cell;
-  position: relative;
-  float: left;
-  width: auto;
+  display: table-cell !important;
+  position: relative !important;
+  float: left !important;
+  width: auto !important;
 }
 
 #URLSubmit {
-  margin-left: -1px;
-  position: relative;
-  display: inline-block;
+  margin-left: -1px !important;
+  position: relative !important;
+  display: inline-block !important;
 
 }
 
