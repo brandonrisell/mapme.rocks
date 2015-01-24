@@ -16,8 +16,10 @@ def get_traits(ip_addr):
 
 	try:
 		ipaddr.IPAddress(ip_addr)
+		domain_name = socket.gethostbyaddr(ip_addr)[0]
 	except (ValueError, ipaddr.AddressValueError) as e:
-		ip_addr = socket.gethostbyname(ip_addr)
+		domain_name = ip_addr
+		ip_addr = socket.gethostbyname(domain_name)
 
 	traits = reader.city(ip_addr)
 
@@ -29,6 +31,7 @@ def get_traits(ip_addr):
 			'Country Code' : traits.country.iso_code,
 			'Latitude' : traits.location.latitude,
 			'Longitude' : traits.location.longitude,
+			'Domain Name' : domain_name
 			}
 
 	return details

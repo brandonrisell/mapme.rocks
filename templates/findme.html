@@ -50,16 +50,15 @@
 {% block scripts %}
 {{ super() }}
 <script type="text/javascript" src="//maps.googleapis.com/maps/api/js?key=AIzaSyA0C2Xi_cPKItEbSokdY-pwmOJCvXfGqik"></script>
+<script type="text/javascript" src="/static/markerwithlabel_packed.js"></script>
 
 <script type="text/javascript">
 
 $(document).ready(function(){
 	
-	console.log('test');
-
 	$('#map-container').css('height', '450px');
 
-	function initialize_map(latitude, longitude, title) {
+	function initialize_map(latitude, longitude, titleText) {
 		var myLatlng = new google.maps.LatLng(latitude, longitude);
 
 		var mapOptions = {
@@ -69,10 +68,14 @@ $(document).ready(function(){
 
 		var map = new google.maps.Map(document.getElementById('map-container'), mapOptions);
 
-		var marker = new google.maps.Marker({
+		var marker = new MarkerWithLabel({
 		    position: myLatlng,
 		    map: map,
-		    title: title
+		    title: titleText,
+		    labelContent: titleText,
+       		labelAnchor: new google.maps.Point(-15, 30),
+		    labelClass: "marker-label",
+		    animation: google.maps.Animation.DROP
 		});
 	}
 
@@ -80,7 +83,6 @@ $(document).ready(function(){
 		type : "GET",
 		url : "http://icanhazip.com",
 		success : function(resp){
-			console.log(resp);
 			$.ajax({
 				type : "GET",
 				url : "/geoip/" + resp,
@@ -89,7 +91,7 @@ $(document).ready(function(){
 					$('.gm-style').remove();
 				},
 				success : function(resp){
-					initialize_map(resp['Latitude'], resp['Longitude'], resp['IP Address']);
+					initialize_map(resp['Latitude'], resp['Longitude'], resp['Domain Name']);
 				},
 			})
 		},
