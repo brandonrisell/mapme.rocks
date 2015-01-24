@@ -109,50 +109,62 @@ $(document).ready(function(){
 		});
 	}
 
-	var loading = $('<div style="text-center"><i class="fa fa-spin fa-2x text-center fa-spinner"></i></div>');
-
-	$('#URLSubmit').on('click',function(e){
-		e.preventDefault();
-
-		$('.btn-success').addClass('hide');
-
-		$.ajax({
-			type : "GET",
-			url : "/geoip/" + $('input#URL').val(),
-			contentType: 'application/json;charset=UTF-8',
-			beforeSend: function(){
-				$('.col-md-2').append(loading);
-				$('.gm-style').remove();
-			},
-			success : function(resp){
-				loading.remove();
-				$('.btn-success').removeClass('hide');
-				$('.hero').animate({height: 0}, 1800, function(){ 
-					$('.hero').hide();
-				});
-				$('#map-container').animate({height: 450}, 1800, function(){ 
-					$('#map-container').css('height', '450px');
-					initialize_map(resp['Latitude'], resp['Longitude'], $('input#URL').val());
-				});
-				$('input').val('');
-			},
-			error : function(resp){
-				alert(resp['responseText']);
-				loading.remove();
-				$('.hero').fadeIn();
-				$('.btn-success').removeClass('hide');
-	       loading.remove();
-			}
+	{% if destination %}
+		console.log('has dest');
+		$('.hero').animate({height: 0}, 1800, function(){ 
+			$('.hero').hide();
 		});
-	});
+		$('#map-container').animate({height: 450}, 1800, function(){ 
+			$('#map-container').css('height', '450px');
+			initialize_map({{ destination['Latitude'] }}, {{ destination['Longitude'] }}, "{{ destination['IP Address'] }}");
+		});
 
-	var marker = new MarkerWithLabel({
-	   position: myLatlng,
-	   map: map,
-       labelContent: title,
-       labelAnchor: new google.maps.Point(22, 0),
-       labelClass: "marker-label"
-	});
+	{% else %}
+		var loading = $('<div style="text-center"><i class="fa fa-spin fa-2x text-center fa-spinner"></i></div>');
+
+		$('#URLSubmit').on('click',function(e){
+			e.preventDefault();
+
+			$('.btn-success').addClass('hide');
+
+			$.ajax({
+				type : "GET",
+				url : "/geoip/" + $('input#URL').val(),
+				contentType: 'application/json;charset=UTF-8',
+				beforeSend: function(){
+					$('.col-md-2').append(loading);
+					$('.gm-style').remove();
+				},
+				success : function(resp){
+					loading.remove();
+					$('.btn-success').removeClass('hide');
+					$('.hero').animate({height: 0}, 1200, function(){ 
+						$('.hero').hide();
+					});
+					$('#map-container').animate({height: 450}, 1200, function(){ 
+						$('#map-container').css('height', '450px');
+						initialize_map(resp['Latitude'], resp['Longitude'], $('input#URL').val());
+					});
+					$('input').val('');
+				},
+				error : function(resp){
+					alert(resp['responseText']);
+					loading.remove();
+					$('.hero').fadeIn();
+					$('.btn-success').removeClass('hide');
+		       loading.remove();
+				}
+			});
+		});
+
+		var marker = new MarkerWithLabel({
+		   position: myLatlng,
+		   map: map,
+	       labelContent: title,
+	       labelAnchor: new google.maps.Point(22, 0),
+	       labelClass: "marker-label"
+		});
+	{% endif %}
 });
 
 </script>

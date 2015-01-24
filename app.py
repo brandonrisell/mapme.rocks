@@ -14,12 +14,44 @@ reader = geoip2.database.Reader('GeoLite2-City.mmdb')
 
 def get_traits(ip_addr):
 
-	return reader.city(ip_addr)
+	try:
+		ipaddr.IPAddress(ip_addr)
+	except (ValueError, ipaddr.AddressValueError) as e:
+		ip_addr = socket.gethostbyname(ip_addr)
+
+	traits = reader.city(ip_addr)
+
+	details = {
+			'IP Address': ip_addr,
+			'City': traits.city.name,
+			'Subdivision' : traits.subdivisions.most_specific.name,
+			'Country': traits.country.name,
+			'Country Code' : traits.country.iso_code,
+			'Latitude' : traits.location.latitude,
+			'Longitude' : traits.location.longitude,
+			}
+
+	return details
 
 @app.route('/')
 def home():
 
 	return render_template('home.html')
+
+@app.route('/dest/<destination>')
+def home_dest(destination):
+
+	try:
+		ip_traits = get_traits(destination)
+	except ValueError as e:
+		return jsonify({'Error': e.message}), 400
+
+	try:
+		return render_template('home.html', destination=get_traits(destination))		
+	except ValueError as e:
+		flash(e.message, 'danger')
+		return render_template('home.html')		
+
 
 @app.route('/findme')
 def findme():
@@ -30,33 +62,12 @@ def findme():
 @app.route('/geoip/<ip_addr>', methods=['GET', 'POST'])
 def geoip_lookup(ip_addr):
 	
-	# test if valid IP(4/6) address
 	try:
-		ipaddr.IPAddress(ip_addr)
-	except (ValueError, ipaddr.AddressValueError) as e:
-		try:
-			ip_addr = socket.gethostbyname(ip_addr)
-		except socket.gaierror as er:
-			return jsonify({'Error': er.message}), 400
-		# else:
-		# 	return jsonify({'Error': e.message}), 400
-
-	try:
-		ip_traits = get_traits(ip_addr)
+		details = get_traits(ip_addr)
 	except ValueError as e:
 		return jsonify({'Error': e.message}), 400
 
-	country = ip_traits.country.name
-	city = ip_traits.city.name
-	
-	return jsonify({
-		'IP Address': ip_addr,
-		'City': ip_traits.city.name,
-		'Subdivision' : ip_traits.subdivisions.most_specific.name,
-		'Country': ip_traits.country.name,
-		'Latitude' : ip_traits.location.latitude,
-		'Longitude' : ip_traits.location.longitude,
-		}), 200
+	return jsonify(details), 200
 
 
 if __name__ == '__main__': 
