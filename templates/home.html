@@ -22,7 +22,7 @@
 
 		</br>
 
-		<div class="row">
+		<div class="row hero">
 			<div class="col-md-12 panel panel-success">
 				<div class="panel-body">
 			        </br>
@@ -72,8 +72,26 @@
 
 {% block scripts %}
 {{ super() }}
+<script type="text/javascript" src="//maps.googleapis.com/maps/api/js?key=AIzaSyA0C2Xi_cPKItEbSokdY-pwmOJCvXfGqik"></script>
 
 <script type="text/javascript">
+
+function initialize_map(lat, long, title) {
+	var myLatlng = new google.maps.LatLng(lat, long);
+
+	var mapOptions = {
+		center: myLatlng,
+		zoom: 8
+	};
+
+	var map = new google.maps.Map(document.getElementById('map-container'), mapOptions);
+
+	var marker = new google.maps.Marker({
+	    position: myLatlng,
+	    map: map,
+	    title: title
+	});
+}
 
 var loading = $('<div style="text-center"><i class="fa fa-spin fa-2x text-center fa-spinner"></i></div>');
 
@@ -91,13 +109,19 @@ $('#URLSubmit').on('click',function(e){
 		},
 		success : function(resp){
 			loading.remove();
+			$('.hero').fadeOut();
 			$('.btn-success').removeClass('hide');
-			$('.results').append('<p> <strong>' + resp['City'] + ' / ' + resp['Country'] + '</strong> Latitude: ' + resp['Latitude'] + ', Longitude:' + resp['Longitude'] + '</p>');
+			// $('.results').append('<p> <strong>' + resp['City'] + ' / ' + resp['Country'] + '</strong> Latitude: ' + resp['Latitude'] + ', Longitude:' + resp['Longitude'] + '</p>');
+			initialize_map(resp['Latitude'], resp['Longitude'], $('input#URL').val())
+			$('.results').fadeIn();
 			$('input').val('');
 			console.log(resp);
 		},
 		error : function(resp){
 			alert(resp['responseText']);
+			loading.remove();
+			$('.hero').fadeIn();
+			$('.btn-success').removeClass('hide');
        loading.remove();
 		}
 	});
