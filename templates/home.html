@@ -95,8 +95,9 @@ $(document).ready(function(){
 		var marker = new MarkerWithLabel({
 		    position: myLatlng,
 		    map: map,
+		    title: titleText,
 		    labelContent: titleText,
-       		labelAnchor: new google.maps.Point(3, 30),
+       		labelAnchor: new google.maps.Point(25, 0),
 		    labelClass: "marker-label",
 		    animation: google.maps.Animation.DROP
 		});
