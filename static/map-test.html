@@ -7,25 +7,29 @@ html, body, #map-container { height: 100%; margin: 0; padding: 0;}
 <script type="text/javascript" src="//maps.googleapis.com/maps/api/js?key=AIzaSyA0C2Xi_cPKItEbSokdY-pwmOJCvXfGqik"></script>
 <script type="text/javascript">
 function initialize() {
+	var myLatlng = new google.maps.LatLng(120.8489,37.5058);
+
 	var mapOptions = {
-		center: { lat: 120.8489, lng: 37.5058 },
+		center: myLatlng,
 		zoom: 8
 	};
 
 	var map = new google.maps.Map(document.getElementById('map-container'), mapOptions);
 
 	var marker = new google.maps.Marker({
-    position: { lat: 120.8489, lng: 37.5058 },
-    map: map,
-    title:"Turlock!"
-});
+	    position: myLatlng,
+	    map: map,
+	    title:"Turlock!"
+	});
 }
 google.maps.event.addDomListener(window, 'load', initialize);
 </script>
 </head>
 <body>
+<!--
 	<input type="text" name="lng" />
 	<input type="text" name="lat" />
+	-->
 	<div id="map-container">
 
 	</div>
