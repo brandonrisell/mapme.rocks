@@ -82,7 +82,7 @@
 <script type="text/javascript">
 
 $(document).ready(function(){
-	function initialize_map(latitude, longitude, title) {
+	function initialize_map(latitude, longitude, titleText) {
 		var myLatlng = new google.maps.LatLng(latitude, longitude);
 
 		var mapOptions = {
@@ -95,7 +95,8 @@ $(document).ready(function(){
 		var marker = new MarkerWithLabel({
 		    position: myLatlng,
 		    map: map,
-		    labelContent: title,
+		    labelContent: titleText,
+       		labelAnchor: new google.maps.Point(3, 30),
 		    labelClass: "marker-label"
 		});
 	}
