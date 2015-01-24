@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 from flask import Flask, request, jsonify, render_template, flash
-import json, socket, geoip2.database, geoip2.errors, ipaddr
+import json, socket, geoip2.database, geoip2.errors, ipaddr, os
 from flask_bootstrap import Bootstrap
 import rethinkdb as r
 from rethinkdb.errors import RqlRuntimeError, RqlDriverError
@@ -14,13 +14,27 @@ app.config.from_object(config.Config)
 # GeoIP DB Reader
 reader = geoip2.database.Reader('GeoLite2-City.mmdb')
 
-RDB_HOST =  os.environ.get('RDB_HOST') or '10.10.144.4'
+RDB_HOST =  os.environ.get('RDB_HOST') or '127.0.0.2'
 RDB_PORT = os.environ.get('RDB_PORT') or 28015
+RDB_NAME = 'mapme'
+
+# db setup; only run once
+def dbSetup():
+    connection = r.connect(host=RDB_HOST, port=RDB_PORT)
+    try:
+        r.db_create(RDB_NAME).run(connection)
+        r.db(RDB_NAME).table_create('queries').run(connection)
+        print 'Database setup completed'
+    except RqlRuntimeError:
+        print 'Database already exists.'
+    finally:
+        connection.close()
+dbSetup()
 
 @app.before_request
 def before_request():
     try:
-        g.rdb_conn = r.connect(host=RDB_HOST, port=RDB_PORT, db='mapme')
+        g.rdb_conn = r.connect(host=RDB_HOST, port=RDB_PORT, db=RDB_NAME)
     except RqlDriverError:
         abort(503, "No database connection could be established.")
 
