@@ -77,7 +77,7 @@
 {{ super() }}
 <script type="text/javascript" src="//maps.googleapis.com/maps/api/js?key=AIzaSyA0C2Xi_cPKItEbSokdY-pwmOJCvXfGqik"></script>
 
-<script type="text/javascript" src="/static/markerwithlabel_packed.js"></script>
+<script type="text/javascript" src="//www.mapme.rocks/static/markerwithlabel_packed.js"></script>
 
 <script type="text/javascript">
 
@@ -92,10 +92,11 @@ $(document).ready(function(){
 
 		var map = new google.maps.Map(document.getElementById('map-container'), mapOptions);
 
-		var marker = new google.maps.Marker({
+		var marker = new MarkerWithLabel({
 		    position: myLatlng,
 		    map: map,
-		    title: title
+		    labelContent: title,
+		    labelClass: "marker-label"
 		});
 	}
 

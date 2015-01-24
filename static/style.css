@@ -42,10 +42,10 @@ img.plugin {
     color: red;
     background-color: white;
     font-family: "Lucida Grande", "Arial", sans-serif;
-    font-size: 10px;
+    font-size: 50px;
     font-weight: bold;
     text-align: center;
-    width: 40px;     
+    width: 400px;     
     border: 2px solid black;
     white-space: nowrap;
 }
