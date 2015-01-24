@@ -25,7 +25,7 @@ def home():
 def findme():
 
 	try:
-		visitor_traits = get_traits(request.remote_addr)
+		visitor_traits = get_traits(request.environ['REMOTE_ADDR'])
 	except geoip2.errors.AddressNotFoundError as e:
 		flash(e.message, 'danger')
 		return render_template('findme.html')
