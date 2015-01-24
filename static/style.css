@@ -53,11 +53,6 @@ img.plugin {
     white-space: nowrap;
 }
 
-.input-group-addon,
-.input-group-btn {
-  width: 1% !important;
-}
-
 @media (min-width : 992px) {
 	
   .input-group {
@@ -111,6 +106,14 @@ img.plugin {
     min-height: 320px;
   }
 
+}
+
+@media (min-width: 768px) {
+  .form-inline .input-group .input-group-addon,
+  .form-inline .input-group .input-group-btn,
+  .form-inline .input-group .form-control {
+    width: 1% !important;
+  }
 }
 
 .logo-title {
