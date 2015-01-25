@@ -1,0 +1,92 @@
+{% extends "layout.html" %} 
+{% import "bootstrap/wtf.html" as wtf %} 
+
+{% block title %}
+{{ super()}}
+- Features
+{% endblock %} 
+
+{% block page_content %}
+{{ super() }}
+
+
+<div class="container">
+	
+	<div class="col-md-12">
+
+		</br>
+
+		<div class="row hero">
+			<div class="col-md-12 panel panel-success">
+				<div class="panel-body">
+			        </br>
+			        <div class="col-md-10 col-md-offset-1">
+			        	<h3 class="text-success">So what can MapMe do for you?</h3>
+			        	</br>
+			        	<div class="row">
+				        	<div class="col-xs-12 col-md-6">
+				        		<h4>1. Always know where your infomation is headed</h4>
+				        		<p>Don't be surprised when you find out you're submitting personal information to some crazy country you've never heard of before. </p>
+				        	</div>
+				        	<div class="col-xs-12 col-md-6 text-center">
+					        	<img style="height: 200px; width: auto;"src="/static/ext.png">
+				        	</div>
+			        	</div>
+        	        	<div class="row">
+        		        	<div class="col-sm-12">
+					        	</br>
+					        	<h4>2. Find out where sites are hosted before you visit</h4>
+					        	<p>Did you receive a suspicious link that's worth investigating before visiting? Lookup the site location with MapMe before visiting so you don't risk leaking out personal information.</p>
+		        	        	<div class="text-center">
+		        	        		</br>
+		        		        	<img style="height: auto; width: 70%;"src="/static/query.png">
+		        	        	</div>
+					        </div>
+					    </div>
+
+	    	        	<div class="row">
+	    		        	<div class="col-sm-12">
+					        	</br>
+					        	<h4>3. See a feed of recent website lookups</h4>
+					        	<p>Maybe you're just a data geek and want to see what countries have sites that have been checked recently. That's cool with us, we don't judge. We also don't keep a record of who is checking these sites, so don't worry about your information being public.</p>
+		        	        	<div class="text-center">
+		        	        		</br>
+		        		        	<img style="height: auto; width: 70%;"src="/static/feed.png">
+		        	        	</div>
+					        </div>
+					    </div>
+			        	</br>
+			        	</br>
+			        	</br>
+			        	<div class="video">
+				        	<iframe src="//player.vimeo.com/video/117693341" width="500" height="281" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe> <p><a href="http://vimeo.com/117693341">MapMe Chrome Extension</a> from <a href="http://vimeo.com/user268061">Mat Wood</a> on <a href="https://vimeo.com">Vimeo</a>.</p>
+				        </div>
+			        </div>
+			    </div>
+			</div>
+		</div>
+
+		
+	</div>
+</div>
+
+</div>
+
+
+
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+
+<script type="text/javascript">
+
+
+$(document).ready(function(){
+	
+
+});
+
+</script>
+
+{% endblock %}

@@ -22,35 +22,40 @@
 </style>
 <body>
   
-  <div class="col-md-12" style="color: #eee;">
-	  <div class="title text-center">
-	  	<span class="logo-title" style="font-family: 'Montserrat', sans-serif;	color: #eee; padding: 10px;">MapMe</span>
+  <div class="col-md-12">
+	  <div class="title text-center" style="margin-top: 5px;">
+	  	<span class="logo-title" style="font-family: 'Montserrat', sans-serif;	color: #eee; padding: 10px; ">MapMe</span>
 	  	
 	  </div>
-	  <div class="text-center">
-		  <h3><span id="title1"></span></h3>
-	 </div>
-	  <div class="col-md-8 col-md-offset-2">
-	  	<h4><span id="title2"> </span><span id="flag" class="" style="margin-left: 15px;"> </span><span id="ip_addr" class="pull-right" style="margin-right: 15px; font-size: .8em; margin-top: 5px;"> </span></h4>
+	  <div class="well text-center" style="margin-top: 10px;">
+		  <div class="text-center">
+			  <h3 style="margin-top: 2px; padding-top: 2px;"><span id="title1"></span></h3>
+		 </div>
+	  	<h4><span id="title2"> </span><span id="flag" class="" style="margin-left: 15px;"> </span></h4>
+	  	<h4><span id="ip_addr" style="margin-right: 15px; font-size: .8em; margin-top: 5px;"> </span></h4>
 		  <div class="text-center">
 			  <a id="mapit">
-			  	<button class="btn btn-success">Map It</button>
+			  	<button class="btn btn-success btn-sm">Map It</button>
 			  </a>
 		  </div>	
 	  </div>
 	  
-	  	</br>
-	  	<h5>Lookup another domain:</h5>
-	    <form class="form-inline">
-	        <div class="input-group">
-	    	   <input type="text" class="form-control" id="URL" placeholder="example.com">
-	    	   <span class="input-group-btn">
-	        	  <button type="submit" id="URLSubmit" class="btn btn-success">Lookup</button>
-	    	  </span>
-	    	 </div>
-		</form>
-		<div class="warning-check half-fill"><input type="checkbox" id="warning-checkbox"><label>Warning list enabled</label></div>
-		<div class="block-check half-fill"><input type="checkbox" id="block-checkbox"><label>Block list enabled</label></div>
+		<div class="well text-center" style="padding: 2px 10px;">
+				</br>
+				<h5 style="margin-top: 2px;">Lookup another domain:</h5>
+			<form class="form-inline">
+			    <div class="input-group">
+				   <input type="text" class="form-control" id="URL" placeholder="example.com">
+				   <span class="input-group-btn">
+			    	  <button type="submit" id="URLSubmit" class="btn btn-success">Lookup</button>
+				  </span>
+				 </div>
+			</form>
+		</div>
+		<div class="well" style="padding-bottom: -10px; margin-bottom: 10px;">
+			<div class="warning-check half-fill"><input type="checkbox" id="warning-checkbox"><label>Warning list enabled</label></div>
+			<div class="block-check half-fill"><input type="checkbox" id="block-checkbox"><label>Block list enabled</label></div>
+		</div>
 	</div>
   <script src="map-me.js"></script>
 </body>

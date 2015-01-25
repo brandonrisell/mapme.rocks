@@ -14,8 +14,8 @@
 	
 	<div class="col-md-12">
 		{% for category, message in get_flashed_messages(with_categories=true) %} 
-		<div class="alert alert-{{ category }}">
-			<button type="button" class="close" data-dismiss="alert">&times;</button>
+		<div class="alert alert-{{ category }}" style="margin-top: 15px;">
+			<button type="button" class="close fade" data-dismiss="alert">&times;</button>
 			{{ message }}
 		</div>
 		{% endfor %}
@@ -23,28 +23,26 @@
 		</br>
 
 		<div class="row hero">
-			<div class="col-md-12 panel panel-success">
-				<div class="panel-body">
-			        </br>
-			        <div class="col-md-7">
-			        	<h3 class="text-success">Where are you really browsing?</h3>
-			        	</br>
-			        	</br>
-			        	<p>Many questionable websites can be hiding behind clever domain names. </p>
-			        	<p>Don't fall for their tricks. Know where you're browsing while you browse.</p>
-			        	</br>
-			        	<p>Use our <a href="/static/extension.crx" id="popover" rel="popover" >Chrome extension</a> to warn you of possibly unsafe sites.</p>
-
+			<div class="col-md-12 panel panel-success" style="min-height: 400px;">
+				<div class="panel-body" style="padding-bottom: 0px; margin-bottom: -1px;">
+			        <div class="row">
+				        <div class="col-md-6">
+				        	<h3 class="text-success">Where are you really browsing?</h3>
+				        </div>
+				        <div class="col-md-6 col-md-offset-0 col-sm-6 col-sm-offset-0 col-xs-8 col-xs-offset-2">
+				        	</br>
+				        	<p>Many questionable websites can be hiding behind clever domain names. <strong>Don't fall for their tricks.</strong> Know where you're browsing with each website. Use the <a href="/features">MapMe Chrome extension</a> to warn you of possibly unsafe sites.</p>
+				        </div>
 			        </div>
-			        <div class="col-md-5 pull-right bottom-padding">
-			        	<img class="pull-right" src="/static/earth.png" class="bottom-padding">
+			        <div style="padding-left: 30px; padding-right: 5px;">
+			        	<img class="pull-right" src="/static/main.png" style="width: 100%; height: auto;">
 			        </div>
 			    </div>
 			</div>
 		</div>
 
 		<div class="row">
-			<div class="col-md-12 panel panel-success">
+			<div class="col-sm-12 panel panel-success">
 				<div class="panel-heading">
 					<h3 class="panel-title">Find location of a domain below</h3>
 				</div>
@@ -53,13 +51,17 @@
 			        <div class="alert-box">
 			        	
 			        </div>
-			        <form class="form-inline">
-				        <div class="input-group">
-			        	   <input type="text" class="form-control" id="URL" placeholder="example.com">
-			        	   <span class="input-group-btn">
-				        	  <button type="submit" id="URLSubmit" class="btn btn-success">Lookup</button>
-			        	  </span>
-			        	 </div>
+				        <form class="form-inline">
+				        <div class="row">
+				        <div class="col-sm-12">
+					        <div class="input-group">
+				        	   <input type="text" class="form-control" id="URL" placeholder="example.com">
+				        	   <span class="input-group-btn">
+					        	  <button type="submit" id="URLSubmit" class="btn btn-success">Lookup</button>
+				        	  </span>
+				        	 </div>
+				        </div>
+				        </div>
 		        	</form>
 			        </br>
 			        <div id="map-container">
@@ -91,6 +93,8 @@
 
 $(document).ready(function(){
 	
+	window.setTimeout(function() { $(".alert").alert('close'); }, 5000);
+
 	$('a[rel=popover]').popover({
 	  html: true,
 	  trigger: 'hover',
@@ -99,15 +103,12 @@ $(document).ready(function(){
 	  }
 	});
 
-	// $('.input#URL').css('width', '100%');
-	// $('.input-group-btn').css('width', '100%');
-
 	function initialize_map(latitude, longitude, titleText) {
 		var myLatlng = new google.maps.LatLng(latitude, longitude);
 
 		var mapOptions = {
 			center: myLatlng,
-			zoom: 10
+			zoom: 5
 		};
 
 		var map = new google.maps.Map(document.getElementById('map-container'), mapOptions);
@@ -124,6 +125,7 @@ $(document).ready(function(){
 	}
 
 	{% if destination %}
+		$('input#URL').val("{{ orig_query }}")
 		$('.hero').animate({height: 0}, 1800, function(){ 
 			$('.hero').hide();
 		});
@@ -152,7 +154,6 @@ $(document).ready(function(){
 					$('#map-container').animate({height: 450}, 1200, function(){ 
 						$('#map-container').css('height', '450px');
 						initialize_map(resp['Latitude'], resp['Longitude'], $('input#URL').val());
-						$('input').val('');
 					});
 				},
 				error : function(resp){
