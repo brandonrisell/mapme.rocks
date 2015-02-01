@@ -10,6 +10,7 @@ gunicorn==19.1.1
 ipaddr==2.1.11
 itsdangerous==0.24
 maxminddb==1.1.1
+mongokit==0.9.1.1
+pymongo==2.8
 requests==2.5.1
-rethinkdb==1.15.0-3
 wsgiref==0.1.2
