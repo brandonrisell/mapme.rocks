@@ -30,8 +30,7 @@ class Domain_Lookup(Document):
         return '<Domain Lookup %r>' % (self['Domain Name'])
 
 # register the User document with our current connection
-connection = Connection(app.config['MONGODB_HOST'],
-                        app.config['MONGODB_PORT'])
+connection = Connection(app.config['MONGODB_URI'])
 connection.register([Domain_Lookup])
 collection = connection[app.config['MONGODB_DB']].lookups
 
