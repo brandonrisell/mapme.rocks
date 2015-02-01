@@ -30,9 +30,9 @@ class Domain_Lookup(Document):
         return '<Domain Lookup %r>' % (self['Domain Name'])
 
 # register the User document with our current connection
-connection = Connection(app.config['MONGODB_URI'])
+connection = Connection(app.config['MONGOLAB_URI'])
 connection.register([Domain_Lookup])
-collection = connection[app.config['MONGODB_DB']].lookups
+collection = connection[app.config['MONGOLAB_DB']].lookups
 
 def get_traits(ip_addr):
 
